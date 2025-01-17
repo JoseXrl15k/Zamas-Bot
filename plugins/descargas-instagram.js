@@ -23,8 +23,8 @@ let handler = async (m, { args, conn }) => {
 }
 
 //handler.cookies = 2
-handler.command = ['ig2', 'igdl2', 'instagram2'];
+handler.command = ['ig', 'igdl', 'instagram'];
 handler.tags = ['descargas'];
-handler.help = ['ig2 *<link>*'];
+handler.help = ['ig *<link>*'];
 
 export default handler;

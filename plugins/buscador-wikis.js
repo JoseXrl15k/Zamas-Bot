@@ -39,7 +39,7 @@ const handler = async (m, { conn, text }) => {
                     `✦ *Titulo*: ${articleTitle}\n` +
                     `✧ *Descripción*:\n${articleContent}\n` +
                     `✦ *Link*: (${articleUrl})\n\n` +
-                    `> ৎ୭࠭͢𝒴𝓊𝓀𝒾_𝒮𝓊𝓸𝓊-𝐵𝑜𝓉𝐭ⷭ𓆪͟͞ `;
+                    `> Zamas-Bot`;
 
     await conn.sendMessage(m.chat, { text: message }, { quoted: m });
 

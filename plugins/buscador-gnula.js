@@ -1,5 +1,4 @@
-//Codígo creado por Destroy
-//Créditos a EliasarYt
+
 
 
 import cheerio from 'cheerio';
@@ -70,7 +69,7 @@ let handler = async (m, { conn }) => {
             `⬇️ Descargar: ${movie.enlaceDescarga}`
         ).join('\n\n');
 
-        const output = `${formattedResults}\n\n> ৎ୭࠭͢𝒴𝑢𝓀𝒾_𝒮𝓊𝑜𝓊-𝐵𝑜𝑡𝐭ⷭ𓆪͟͞ `;
+        const output = `${formattedResults}\n\n> Zamas-Bot`;
 
         conn.sendMessage(m.chat, { text: output }, { quoted: m });
     } catch (error) {

@@ -3,7 +3,7 @@ let handler = async (m, { conn, usedPrefix, isRowner}) => {
 let _muptime
 let totalreg = Object.keys(global.db.data.users).length
 let totalchats = Object.keys(global.db.data.chats).length
-let pp = "https://files.catbox.moe/guvo2k.jpg"
+let pp = "https://qu.ax/mPPHM.jpg"
 if (process.send) {
 process.send('uptime')
 _muptime = await new Promise(resolve => {
@@ -20,18 +20,18 @@ let old = performance.now()
 let neww = performance.now()
 let speed = neww - old
 const used = process.memoryUsage()
-let horie = `🪻 \`\`\`Información - Ao-Horie\`\`\` 🪻\n`
-horie += `👑꙰᠁❥ *◜Creador◞* ⇢ Jose XrL\n`
-horie += `⚜️꙰᠁❥ *◜Prefijo◞* ⇢ [ ${usedPrefix} ]\n`
-horie += `📚꙰᠁❥ *◜Versión◞* ⇢ ${vs}\n`
-horie += `🔐꙰᠁❥ *◜Chats Privados◞* ⇢ ${chats.length - groupsIn.length}\n`
-horie += `💬꙰᠁❥ *◜Total De Chats◞* ⇢ ${chats.length}\n`
-horie += `👥꙰᠁❥ *◜Usuarios◞* ⇢ ${totalreg}\n`
-horie += `📌꙰᠁❥ *◜Grupos◞* ⇢ ${groupsIn.length}\n`
-horie += `⏱️꙰᠁❥ *◜Actividad◞* ⇢ ${muptime}\n`
-horie += `🚀꙰᠁❥ *◜Velocidad◞* ⇢ ${(speed * 1000).toFixed(0) / 1000}\n`
-horie += `🤖꙰᠁❥ *◜Sub-Bots Activos◞* ⇢ ${totalUsers || '0'}`
-await conn.sendFile(m.chat, pp, 'horie.jpg', horie, fkontak, null, rcanal)
+let zamasu = `🔥 *\`Información - Zamas-Bot\`* 🔥\n`
+zamasu += `👑꙰᠁☆ *\`◜Creador◞\`* ⇢ Jose XrL\n`
+zamasu += `⚜️꙰᠁☆ *\`◜Prefijo◞\`* ⇢ [ ${usedPrefix} ]\n`
+zamasu += `📚꙰᠁☆ *\`◜Versión◞\`* ⇢ ${vs}\n`
+zamasu += `🔐꙰᠁☆ *\`◜Chats Privados◞\`* ⇢ ${chats.length - groupsIn.length}\n`
+zamasu += `💬꙰᠁☆ *\`◜Total De Chats◞\`* ⇢ ${chats.length}\n`
+zamasu += `👥꙰᠁☆ *\`◜Usuarios◞\`* ⇢ ${totalreg}\n`
+zamasu += `📌꙰᠁☆ *\`◜Grupos◞\`* ⇢ ${groupsIn.length}\n`
+zamasu += `⏱️꙰᠁☆ *\`◜Actividad◞\`* ⇢ ${muptime}\n`
+zamasu += `🚀꙰᠁☆ *\`◜Velocidad◞\`* ⇢ ${(speed * 1000).toFixed(0) / 1000}\n`
+zamasu += `🤖꙰᠁☆ *\`◜Sub-Bots Activos◞\`* ⇢ ${totalUsers || '0'}`
+await conn.sendFile(m.chat, pp, 'zamasu.jpg', zamasu, fkontak, null, rcanal)
 }
 handler.help = ['estado']
 handler.tags = ['info']

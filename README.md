@@ -1,4 +1,4 @@
-### Zamas-Bot By Jose 🍁
+### Zamas-Bot WhatsApp 
 
 
 <div class = "repo" align = "center">
@@ -28,10 +28,12 @@
 ---
    <a><img src='https://i.imgur.com/LyHic3i.gif'/></a><a><img src='https://i.imgur.com/LyHic3i.gif'/></a>
 <p align="center"> 
-<u>🔥 Simple Bot de WhatsApp creado por Jose 🔥</u>
+<u>🌩 Simple Bot de WhatsApp 🌩</u>
 </p>
 <p align="center">
-<img src="https://qu.ax/XQkWQ.jpg"/>       
+<img src="https://qu.ax/XQkWQ.jpg"/>     
+<u>🧃 Anna dueña de Zamas 🧃</u>
+ 
 <p align="center">
   <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=EB+Garamond&weight=800&size=28&duration=4000&pause=1000&random=false&width=435&lines=+ZAMAS+WHATSAPP+BOT;DEVELOPED+BY+JOSE+XRL;RELEASED+DATE+16%2F1%2F2025." alt="Typing SVG" /></a>
  </p>

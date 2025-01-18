@@ -7,12 +7,12 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   https://chat.whatsapp.com/CX0KRkfViZS0jKZHkTJlCM`
 
   await conn.sendMessage(m.chat, {
-    image: imagen3,
+    image: imagen1,
     caption: grupos,
     footer: 'Selecciona una opción',
     buttons: [
       {
-        buttonId: `.allmenu`,
+        buttonId: `.menu`,
         buttonText: { displayText: 'Menu de Comandos ' },
       },
       {

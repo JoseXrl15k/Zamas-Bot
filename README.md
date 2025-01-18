@@ -1,10 +1,10 @@
-### Zamas-Bot WhatsApp 
+###        🚩 Zamas-Bot WhatsApp  🚩
 
 
 <div class = "repo" align = "center">
  
 <a href = "#">
-<img src = "https://qu.ax/SnrQu.jpg"  width="640" height="309">
+<img src = "https://qu.ax/iLuXa.jpg"  width="640" height="309">
 </img>
  
 ---

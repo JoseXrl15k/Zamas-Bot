@@ -1,6 +1,4 @@
-### Sobrina Anna Dueña Zamas-Bot 🍁
-
-<img src = "https://qu.ax/XQkWQ.jpg">
+### Zamas-Bot By Jose 🍁
 
 
 <div class = "repo" align = "center">
@@ -33,7 +31,7 @@
 <u>🔥 Simple Bot de WhatsApp creado por Jose 🔥</u>
 </p>
 <p align="center">
-<img src="https://qu.ax/CbBlO.jpg"/>       
+<img src="https://qu.ax/XQkWQ.jpg"/>       
 <p align="center">
   <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=EB+Garamond&weight=800&size=28&duration=4000&pause=1000&random=false&width=435&lines=+ZAMAS+WHATSAPP+BOT;DEVELOPED+BY+JOSE+XRL;RELEASED+DATE+16%2F1%2F2025." alt="Typing SVG" /></a>
  </p>

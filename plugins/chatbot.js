@@ -1,11 +1,13 @@
-//Codigo echo por Jose Elber  🔥
-//prohibido editar 
-//Agradezco su apoyo 🧃
+
+//Código escho por José Elber. Prohibido editar aquí 🌩
+//Si editas eres gay
+
+import axios from 'axios';
 
 let handler = m => m;
 
 handler.all = async function (m) {
-    let fkontak = { 
+    const fkontak = { 
         "key": { 
             "participants": "0@s.whatsapp.net", 
             "remoteJid": "status@broadcast", 
@@ -20,15 +22,37 @@ handler.all = async function (m) {
         "participant": "0@s.whatsapp.net" 
     };
 
-    m.isBot = m.id.startsWith('BAE5') && m.id.length === 16 || 
-              m.id.startsWith('3EB0') && m.id.length === 12 || 
-              m.id.startsWith('3EB0') && (m.id.length === 20 || m.id.length === 22) || 
-              m.id.startsWith('B24E') && m.id.length === 20;
-
     if (m.isBot || m.fromMe || m.id.startsWith('NJX-')) return;
 
     let chat = global.db.data.chats[m.chat];
     if (chat.isBanned) return;
+
+    // Comandos para activar y desactivar el chatbot
+    if (m.text === '/chatbot on' || m.text === '!chatbot on') {
+        chat.isBot = false;
+        chat.hasSentDisabledMessage = false; // Reiniciar el estado del mensaje al activar
+        return conn.reply(m.chat, 'La función ha sido activada.', m, rcanal);
+    }
+
+    if (m.text === '/chatbot off' || m.text === '!chatbot off') {
+        chat.isBot = true;
+        chat.hasSentDisabledMessage = false; // Reiniciar el estado al desactivar
+        return conn.reply(m.chat, 'La función ha sido desactivada.', m, rcanal);
+    }
+    
+    if (m.text === '/estado chatbot' || m.text === '!estado chatbot') {
+        return conn.reply(m.chat, chat.isBot ? 'La función está desactivada.' : 'La función está activada.', m, rcanal);
+    }
+
+    // Si el chatbot está desactivado, enviar el mensaje una sola vez
+    if (chat.isBot) {
+        if (!chat.hasSentDisabledMessage) {
+            chat.hasSentDisabledMessage = true; // Marcar como enviado
+            return conn.reply(m.chat, 'La función está desactivada. Por favor, activala para utilizar el servicio.', m, rcanal);
+        } else {
+            return; // No enviar más mensajes si ya se envió una vez
+        }
+    }
 
     let username = `${m.pushName}`;
 
@@ -49,7 +73,7 @@ handler.all = async function (m) {
     }
 
     try {
-        await conn.sendPresenceUpdate('composing', m.chat);
+        await conn.sendPresenceUpdate('composing', m, rcanal.chat);
         let query = m.text;
 
         // Ajuste del texto en el prompt para que suene más profesional
@@ -59,15 +83,13 @@ handler.all = async function (m) {
         
         // Aquí solo se envía la respuesta si hay resultado
         if (result) {
-            await conn.reply(m.chat, result, m, rcanal);
+            await conn.reply(m.chat, result, m, rcanal, rcanal);
         } else {
-            // Este bloque solo se activa si hay un error en la llamada a la API
             console.error(e);
-            await conn.reply(m.chat, 'Ocurrió un error al comunicarse con el API. Por favor, intenta nuevamente más tarde.', m);
+            await conn.reply(m.chat, 'Ocurrió un error al comunicarse con el API. Por favor, intenta nuevamente más tarde.', m, rcanal);
         }
     } catch (e) {
         console.error(e);
-        
     }
 
     return true;
@@ -77,4 +99,4 @@ export default handler;
 
 function pickRandom(list) {
     return list[Math.floor(Math.random() * list.length)];
-          }
+}

@@ -1,43 +1,71 @@
+import axios from 'axios';
+import cheerio from 'cheerio';
 
+let handler = async (m, { conn, args, usedPrefix, command }) => {
+  if (!args[0]) {
+    return conn.reply(m.chat, `🧃 Por favor, proporciona un enlace de MediaFire válido.\n\nEjemplo:\n\n> ${usedPrefix}${command} <enlace aquí>`, m, rcanal);
+  }
+  
+  await m.react('🕓');
+  
+  let url = args[0];
+  if (!url.includes('mediafire.com')) {
+    return conn.reply(m.chat, `El enlace proporcionado no parece ser de MediaFire.`, m);
+  }
 
-import fetch from 'node-fetch'
-
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) throw m.reply(`Ingresa un link de mediafire\n*📂 Ejemplo:* ${usedPrefix}${command} https://www.mediafire.com/file/2v2x1p0x58qomva/WhatsApp_Messenger_2.24.21.8_beta_By_WhatsApp_LLC.apk/file`);
+  try {
+    const { name, size, date, mime, link } = await mediafireDl(url);
     
-    // Reacción de cargando
-    await conn.sendMessage(m.chat, { react: { text: "🕒", key: m.key } });
+    let text = '*\`乂  M E D I A F I R E\`*\n\n';
+    text += `» *Título:* ${name}\n`;
+    text += `» *Tamaño:* ${size}\n`;
+    text += `» *MIME:* ${mime}\n\n`;
+    text += `> ${dev}`;
+    await conn.reply(m.chat, text, m, rcanal);
 
-    try {
-        let ouh = await fetch(`https://api.agatz.xyz/api/mediafire?url=${text}`);
-        let gyh = await ouh.json();
+    const response = await axios.get(link, { responseType: 'arraybuffer' });
+    const fileBuffer = response.data;
 
-        // Verificar si hay un error en la respuesta de la API
-        if (!gyh.data || gyh.data.length === 0) {
-            // Enviar reacción de error
-            await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
-            return conn.reply(m.chat, `❌ El enlace de Mediafire es inválido o ha ocurrido un error.`, m, rcanal);
-        }
+    await conn.sendMessage(
+      m.chat,
+      { document: fileBuffer, fileName: name, mimetype: mime },
+      { quoted: m }
+    );
 
-        // Enviar el archivo
-        await conn.sendFile(m.chat, gyh.data[0].link, `${gyh.data[0].nama}`, `*🔥 Nombre:* ${gyh.data[0].nama}\n*📂 Tamaño:* ${gyh.data[0].size}\n*🌩 Extensión:* ${gyh.data[0].mime}\n> ˙˚ʚ₍ ᐢ. ̫ .ᐢ ₎ɞ˚ ᴢᴀᴍᴀs ʙᴏᴛ`, m, rcanal);
-        
-        // Enviar reacción de éxito
-        await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
-    } catch (error) {
-        console.error(error);
-        // Enviar reacción de error
-        await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
-        // Enviar mensaje de error al usuario
-        await conn.reply(m.chat, `❌ Ocurrió un error al procesar tu solicitud.`, m, rcanal);
-    }
+    await m.react('✅');
+  } catch (error) {
+    console.error(error);
+    await m.react('❌');
+  }
+};
+
+async function mediafireDl(url) {
+  const res = await axios.get(
+    `https://www-mediafire-com.translate.goog/${url.replace(
+      'https://www.mediafire.com/',
+      ''
+    )}?_x_tr_sl=en&_x_tr_tl=fr&_x_tr_hl=en&_x_tr_pto=wapp`
+  );
+
+  const $ = cheerio.load(res.data);
+  
+  const link = $('#downloadButton').attr('href') || '';
+  const name = $('div.promoDownloadName.notranslate > div').attr('title')?.trim() || 'Desconocido';
+  
+  const sizeText = $('#downloadButton').text().match(/Download\s*\((.+?)\)/);
+  const size = sizeText ? sizeText[1].trim() : 'Desconocido';
+  
+  let mime = 'Desconocido';
+  if (link) {
+    const rese = await axios.head(link);
+    mime = rese.headers['content-type'] || 'Desconocido';
+  }
+  
+  return { name, size, date: new Date().toLocaleDateString(), mime, link };
 }
 
-handler.help = ['mediafire'];
-handler.tags = ['descargas'];
-handler.command = /^(mediafire|mf)$/i;
-handler.premium = true;
-handler.register = true;
-handler.group = true;
+handler.help = ['mediafire *<url>*'];
+handler.tags = ['dl'];
+handler.command = ['mediafire'];
 
 export default handler;

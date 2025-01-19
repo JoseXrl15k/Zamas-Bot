@@ -2,8 +2,8 @@ import axios from 'axios';
 
 let handler = m => m;
 
-// Número del creador
-const creator = '+51946509137'; // Cambia esto al número de tu creador
+// Número del creador con código de país
+const creator = '51946509137';  // Número de teléfono completo, incluyendo el código de país
 
 handler.all = async function (m) {
     const fkontak = { 
@@ -27,18 +27,20 @@ handler.all = async function (m) {
     if (chat.isBanned) return;
 
     // Comandos para activar y desactivar el chatbot
+    const senderNumber = m.sender.split('@')[0]; // Obtener el número del remitente sin @c.us
+
     if ((m.text === '/chatbot on' || m.text === '!chatbot on')) {
-        if (m.sender === creator) {
+        if (senderNumber === creator) {
             chat.isBot = false; // Activar el chatbot para todos los usuarios
             chat.hasSentDisabledMessage = false; // Reiniciar estado del mensaje al activar
-            return conn.reply(m.chat, 'La función ha sido activada.', m, rcanal);
+            return conn.reply(m.chat, `La función ha sido activada por el creador ${creator}.`, m, rcanal);
         } else {
-            return conn.reply(m.chat, 'Solo el creador puede activar el chatbot.', m);
+            return conn.reply(m.chat, 'Solo el creador puede activar el chatbot.', m, rcanal);
         }
     }
 
     if ((m.text === '/chatbot off' || m.text === '!chatbot off')) {
-        if (m.sender === creator) {
+        if (senderNumber === creator) {
             chat.isBot = true; // Desactivar el chatbot para todos los usuarios
             chat.hasSentDisabledMessage = false; // Reiniciar estado del mensaje al desactivar
             return conn.reply(m.chat, 'La función ha sido desactivada.', m, rcanal);
@@ -55,7 +57,7 @@ handler.all = async function (m) {
     if (chat.isBot) {
         if (!chat.hasSentDisabledMessage) {
             chat.hasSentDisabledMessage = true; // Marcar como enviado
-            return conn.reply(m.chat, 'La función está desactivada. Por favor, activala para utilizar el servicio.', m, rcanal);
+            return conn.reply(m.chat, 'La función está desactivada. Por favor, actívala para utilizar el servicio.', m, rcanal);
         } else {
             return; // No enviar más mensajes si ya se envió una vez
         }
@@ -106,4 +108,4 @@ export default handler;
 
 function pickRandom(list) {
     return list[Math.floor(Math.random() * list.length)];
-    }
+}

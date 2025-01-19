@@ -1,48 +1,41 @@
-import fetch from 'node-fetch'; 
+import gplay from "google-play-scraper";
 
-let handler = async (m, { conn, text, command, usedPrefix }) => {
+let handler = async (m, { conn, text }) => {
   if (!text) {
-    return conn.reply(m.chat, `*\`🚩 Ingresa el nombre de la aplicación que deseas buscar en la Play Store.\`*\n\n*\`Ejemplo:\`*\n*\`${usedPrefix + command} WhatsApp\`*`, m, rcanal); 
+    return conn.reply(m.chat, "[❗] Ingresa el nombre de app que quieres buscar", m, rcanal);
   }
-
-  let res;
-  try {
-    res = await fetch(`https://dark-shan-yt.koyeb.app/search/playstore?q=${encodeURIComponent(text)}`);
-    if (!res.ok) throw new Error('Error en la conexión a la API');
-    res = await res.json();
-    if (!res.status || !res.data.length) {
-      return conn.reply(m.chat, `No se encontraron resultados para ${text}.`, m, rcanal); 
-    }
-  } catch (error) {
-    return conn.reply(m.chat, `Ocurrió un error al buscar en la Play Store: ${error.message}`, m, rcanal); 
+  
+  let res = await gplay.search({ term: text });
+  if (!res.length) {
+    return conn.reply(m.chat, "[❗] Por favor ingresa el nombre de una app de la Play Store", m, rcanal); 
   }
-
-  let resultText = res.data.map(
-    (v) =>
-      `*\`🎉.- Resultado:\`* ${v.nama}\n` +
-      `*\`👨‍💻.- Desarrollador:\`* ${v.developer}\n` +
-      `*\`⭐.- Puntuación:\`* ${v.rate}\n` +
-      `*\`🔗.- Link:\`* ${v.link}`
-  ).join("\n\n");
 
   let opt = {
     contextInfo: {
       externalAdReply: {
-        title: res.data[0].nama,
-        body: res.data[0].developer,
-        thumbnail: res.data[0].img,
-        sourceUrl: res.data[0].link,
+        title: res[0].title,
+        body: res[0].summary,
+        thumbnail: (await conn.getFile(res[0].icon)).data,
+        sourceUrl: res[0].url,
       },
     },
-    quoted: m,
   };
 
-  // Enviar la respuesta - solo rcanal aquí también
-  await conn.sendMessage(m.chat, { text: resultText }, { quoted: m, ...opt }, null, rcanal);
+  await console.log(res);
+  
+  res = res.map(
+    (v) =>
+      `*🔍 Resultado:* ${v.title}
+       *✍️ Desarrollador:* ${v.developer}
+       *💸 Precio:* ${v.priceText}
+       *📈 Puntuacion:* ${v.scoreText}
+       *⛓️ Link:* ${v.url}`
+  ).join`\n\n`;
+
+  conn.reply(m.chat, res, m, opt); 
 };
 
-handler.help = ['playstore'];
+handler.help = ['playstore', 'playstoresearch']; 
 handler.tags = ['dl'];
-handler.command = /^(playstore|plays|playstoresearch)$/i;
-
+handler.command = /^(playstore|playstoresearch)$/i; 
 export default handler;

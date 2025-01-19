@@ -1,10 +1,9 @@
-
-//Código escho por José Elber. Prohibido editar aquí 🌩
-//Si editas eres gay
-
 import axios from 'axios';
 
 let handler = m => m;
+
+// Número del creador
+const creator = '+51946509137'; // Cambia esto al número de tu creador
 
 handler.all = async function (m) {
     const fkontak = { 
@@ -16,7 +15,7 @@ handler.all = async function (m) {
         }, 
         "message": { 
             "contactMessage": { 
-                "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` 
+                "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
             }
         }, 
         "participant": "0@s.whatsapp.net" 
@@ -28,16 +27,24 @@ handler.all = async function (m) {
     if (chat.isBanned) return;
 
     // Comandos para activar y desactivar el chatbot
-    if (m.text === '/chatbot on' || m.text === '!chatbot on') {
-        chat.isBot = false;
-        chat.hasSentDisabledMessage = false; // Reiniciar el estado del mensaje al activar
-        return conn.reply(m.chat, 'La función ha sido activada.', m, rcanal);
+    if ((m.text === '/chatbot on' || m.text === '!chatbot on')) {
+        if (m.sender === creator) {
+            chat.isBot = false; // Activar el chatbot para todos los usuarios
+            chat.hasSentDisabledMessage = false; // Reiniciar estado del mensaje al activar
+            return conn.reply(m.chat, 'La función ha sido activada.', m, rcanal);
+        } else {
+            return conn.reply(m.chat, 'Solo el creador puede activar el chatbot.', m);
+        }
     }
 
-    if (m.text === '/chatbot off' || m.text === '!chatbot off') {
-        chat.isBot = true;
-        chat.hasSentDisabledMessage = false; // Reiniciar el estado al desactivar
-        return conn.reply(m.chat, 'La función ha sido desactivada.', m, rcanal);
+    if ((m.text === '/chatbot off' || m.text === '!chatbot off')) {
+        if (m.sender === creator) {
+            chat.isBot = true; // Desactivar el chatbot para todos los usuarios
+            chat.hasSentDisabledMessage = false; // Reiniciar estado del mensaje al desactivar
+            return conn.reply(m.chat, 'La función ha sido desactivada.', m, rcanal);
+        } else {
+            return conn.reply(m.chat, 'Solo el creador puede desactivar el chatbot.', m, rcanal);
+        }
     }
     
     if (m.text === '/estado chatbot' || m.text === '!estado chatbot') {
@@ -83,7 +90,7 @@ handler.all = async function (m) {
         
         // Aquí solo se envía la respuesta si hay resultado
         if (result) {
-            await conn.reply(m.chat, result, m, rcanal, rcanal);
+            await conn.reply(m.chat, result, m, rcanal);
         } else {
             console.error(e);
             await conn.reply(m.chat, 'Ocurrió un error al comunicarse con el API. Por favor, intenta nuevamente más tarde.', m, rcanal);
@@ -99,4 +106,4 @@ export default handler;
 
 function pickRandom(list) {
     return list[Math.floor(Math.random() * list.length)];
-}
+    }

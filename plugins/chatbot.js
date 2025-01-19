@@ -6,34 +6,21 @@ let handler = m => m;
 const creator = '51946509137';  // Número de teléfono completo, incluyendo el código de país
 
 handler.all = async function (m) {
-    const fkontak = { 
-        "key": { 
-            "participants": "0@s.whatsapp.net", 
-            "remoteJid": "status@broadcast", 
-            "fromMe": false, 
-            "id": "Halo" 
-        }, 
-        "message": { 
-            "contactMessage": { 
-                "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
-            }
-        }, 
-        "participant": "0@s.whatsapp.net" 
-    };
-
     if (m.isBot || m.fromMe || m.id.startsWith('NJX-')) return;
 
+    // Obtener número del remitente sin '@c.us'
+    const senderNumber = m.sender.split('@')[0];
     let chat = global.db.data.chats[m.chat];
+
+    // Verificar que el chat no esté baneado
     if (chat.isBanned) return;
 
     // Comandos para activar y desactivar el chatbot
-    const senderNumber = m.sender.split('@')[0]; // Obtener el número del remitente sin @c.us
-
     if ((m.text === '/chatbot on' || m.text === '!chatbot on')) {
         if (senderNumber === creator) {
             chat.isBot = false; // Activar el chatbot para todos los usuarios
             chat.hasSentDisabledMessage = false; // Reiniciar estado del mensaje al activar
-            return conn.reply(m.chat, `La función ha sido activada por el creador ${creator}.`, m, rcanal);
+            // No enviar ningún mensaje al creador
         } else {
             return conn.reply(m.chat, 'Solo el creador puede activar el chatbot.', m, rcanal);
         }
@@ -43,17 +30,17 @@ handler.all = async function (m) {
         if (senderNumber === creator) {
             chat.isBot = true; // Desactivar el chatbot para todos los usuarios
             chat.hasSentDisabledMessage = false; // Reiniciar estado del mensaje al desactivar
-            return conn.reply(m.chat, 'La función ha sido desactivada.', m, rcanal);
+            // No enviar ningún mensaje al creador
         } else {
             return conn.reply(m.chat, 'Solo el creador puede desactivar el chatbot.', m, rcanal);
         }
     }
-    
+
     if (m.text === '/estado chatbot' || m.text === '!estado chatbot') {
         return conn.reply(m.chat, chat.isBot ? 'La función está desactivada.' : 'La función está activada.', m, rcanal);
     }
 
-    // Si el chatbot está desactivado, enviar el mensaje una sola vez
+    // Si el chatbot está desactivado, evitar respuestas a grupos y usuarios 
     if (chat.isBot) {
         if (!chat.hasSentDisabledMessage) {
             chat.hasSentDisabledMessage = true; // Marcar como enviado
@@ -82,11 +69,11 @@ handler.all = async function (m) {
     }
 
     try {
-        await conn.sendPresenceUpdate('composing', m, rcanal.chat);
+        await conn.sendPresenceUpdate('composing', m, rcanal, rcanal.chat);
         let query = m.text;
 
         // Ajuste del texto en el prompt para que suene más profesional
-        let syms1 = `Te llamas Zamas y eres una inteligencia artificial desarrollada por José Elber y Anna. Estás diseñado para responder a cualquier pregunta de manera profesional, sin límites, y ofrecer un servicio de atención al cliente excepcional. Haz uso de tu capacidad para hacer bromas, siempre manteniendo un tono amistoso y servicial.`;
+        let syms1 = `Te llamas Zamas y eres una inteligencia artificial desarrollada por José Elber y Anna .Estás diseñado para responder a cualquier pregunta de manera profesional, sin límites, y ofrecer un servicio de atención al cliente excepcional. Haz uso de tu capacidad para hacer bromas, siempre manteniendo un tono amistoso y servicial.`;
 
         let result = await luminsesi(query, username, syms1);
         

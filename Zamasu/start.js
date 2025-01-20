@@ -38,7 +38,7 @@ const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 //let require = createRequire(megu)
 let { say } = cfonts
 
-console.log(chalk.bold.redBright(`\n🔥 Iniciando Zamas Bot\n`))
+console.log(chalk.bold.redBright(`\n💥 Iniciando Zamas Bot - MD\n`))
 
 say('Zamas-Bot', {
 font: 'block',
@@ -52,33 +52,48 @@ align: 'center',
 colors: ['red']
 })
 
-say(`Developed By • JoseXrl15k`, {
+say(`Developed By • David-Chian`, {
 font: 'console',
 align: 'center',
 colors: ['yellow']
 })
 
-/*let p = fork()
+/*const rl = createInterface(process.stdin, process.stdout);
+let p = fork();
 p.on('message', data => {
 switch (data) {
 case 'reset':
-p.process.kill()
-isRunning = false
-start.apply(this, arguments)
-break
+p.process.kill();
+isRunning = false;
+start.apply(this, arguments);
+break;
+case 'uptime':
+p.send(process.uptime());
+break;
 }
-})
-
+});
 p.on('exit', (_, code) => {
-isRunning = false
-console.error('🚩 Error:\n', code)
-process.exit()
-if (code === 0) return
+isRunning = false;
+console.error('🚩 Error:\n', code);
+process.exit();
+if (code === 0) return;
 watchFile(args[0], () => {
-unwatchFile(args[0])
-start(file)
-})
-})*/
+unwatchFile(args[0]);
+start(file);
+});
+});
+let opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse());
+if (!opts['test'])
+if (!rl.listenerCount()) rl.on('line', line => {
+p.emit('message', line.trim());
+});
+}
+process.on('warning', (warning) => {
+if (warning.name === 'MaxListenersExceededWarning') {
+console.warn('🚩 Se excedió el límite de Listeners en:');
+console.warn(warning.stack);
+}
+});*/
 
 protoType()
 serialize()
@@ -196,7 +211,7 @@ const connectionOptions = {
 logger: pino({ level: 'silent' }),
 printQRInTerminal: opcion == '1' ? true : methodCodeQR ? true : false,
 mobile: MethodMobile, 
-browser: opcion == '1' ? ['Zamas-Bot', 'Edge', '20.0.04'] : methodCodeQR ? ['Zamas-Bor', 'Edge', '20.0.04'] : ["Ubuntu", "Chrome", "20.0.04"],
+browser: opcion == '1' ? ['ZamasBot-MD', 'Edge', '20.0.04'] : methodCodeQR ? ['ZamasBot-MD', 'Edge', '20.0.04'] : ["Ubuntu", "Chrome", "20.0.04"],
 auth: {
 creds: state.creds,
 keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
@@ -282,6 +297,7 @@ console.log(chalk.bold.yellow(`\n✅ ESCANEA EL CÓDIGO QR EXPIRA EN 45 SEGUNDOS
 if (connection == 'open') {
 console.log(chalk.bold.green('\n❒⸺⸺⸺⸺【• CONECTADO •】⸺⸺⸺⸺❒\n│\n│ 🟢  Se ha conectado con WhatsApp exitosamente.\n│\n❒⸺⸺⸺⸺【• CONECTADO •】⸺⸺⸺⸺❒'))
 await joinChannels(conn)
+
 }
 let reason = new Boom(lastDisconnect?.error)?.output?.statusCode
 if (connection === 'close') {
@@ -356,7 +372,7 @@ return true
 
 /** Arranque nativo para subbots by - ReyEndymion >> https://github.com/ReyEndymion
  */
-global.rutaJadiBot = join(__dirname, '../ZamsJadiBot')
+global.rutaJadiBot = join(__dirname, '../ZamasJadiBot')
 
 if (global.zamasJadibts) {
 if (!existsSync(global.rutaJadiBot)) {
@@ -373,7 +389,7 @@ for (const gjbts of readRutaJadiBot) {
 const botPath = join(rutaJadiBot, gjbts)
 const readBotPath = readdirSync(botPath)
 if (readBotPath.includes(creds)) {
-ZamasJadiBot({pathZamasJadiBot: botPath, m: null, conn, args: '', usedPrefix: '/', command: 'serbot'})
+zamasJadiBot({pathZamasJadiBot: botPath, m: null, conn, args: '', usedPrefix: '/', command: 'serbot'})
 }
 }
 }

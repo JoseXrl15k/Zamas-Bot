@@ -52,7 +52,7 @@ align: 'center',
 colors: ['red']
 })
 
-say(`Developed By • David-Chian`, {
+say(`Developed By • JoseXrl15k`, {
 font: 'console',
 align: 'center',
 colors: ['yellow']

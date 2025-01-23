@@ -91,7 +91,6 @@
 "@vitalets/google-translate-api": "^8.0.0",
 "hispamemes": "^1.0.7",
 "openai": "^3.3.0",
-"@StarlightsTeam/Scraper": "github:StarlightsTeam/StarlightsTeam-Scraper",
 "aptoide-scraper": "github:DIEGO-OFC/dv-aptoide-scraper",
 "megajs": "^1.1.3",
 "mime-types": "^2.1.35",
